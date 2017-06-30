@@ -1,0 +1,152 @@
+
+<div class="page-title">
+    <div>
+        <h1>Bảng sản phẩm</h1>
+        <ul class="breadcrumb side">
+            <li><i class="fa fa-home fa-lg"></i></li>
+            <li>Bảng</li>
+            <li class="active"><a href="#">Bảng sản phẩm</a></li>
+        </ul>
+    </div>
+
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="well bs-component">
+                        <div id="success" class="alert alert-success" {{#unless  successMsg}}  hidden {{/unless}}>
+                            {{ successMsg }}
+                        </div>
+                        <div id="err" class="alert alert-danger" {{#unless  errMsg}}  hidden {{/unless}}>
+                            {{ errMsg }}
+                        </div>
+                        <form class="form-horizontal" action="/product/admin/add" method="post">
+                            <fieldset>
+                                <legend>Legend</legend>
+                                <div class="form-group">
+                                    <label class="col-lg-2 control-label" for="title">Tên</label>
+                                    <div class="col-lg-10">
+                                        <input class="form-control" name="title" id="title" type="text" placeholder="Tên">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-2 control-label" for="title">Mô tả</label>
+                                    <div class="col-lg-10">
+                                        <input class="form-control" name="description" id="description" type="text" placeholder="Mô tả">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-2 control-label" for="inputEmail">Gian hàng</label>
+                                    <div class="col-lg-10">
+                                        <select  class="form-control"  name="slcategory" id="slcategory">
+                                            {{#each categories}}
+                                                <option> {{this.title}}</option>
+                                            {{/each}}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-2 control-label" for="inputEmail">Nhà sản xuất</label>
+                                    <div class="col-lg-10">
+                                        <select  class="form-control"  name="slproducer" id="slproducer">
+                                            {{#each producer}}
+                                                <option> {{this.name}}</option>
+                                            {{/each}}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-2 control-label" for="inputEmail">Mục</label>
+                                    <div class="col-lg-10">
+                                        <select  class="form-control" name="sltype"  id="sltype">
+
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-2 control-label" for="title">Giá</label>
+                                    <div class="col-lg-10">
+                                        <input class="form-control" name="price" id="price" type="number" placeholder="Giá">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-2 control-label" for="title">Ảnh</label>
+                                    <div class="col-lg-10">
+                                        <input class="form-control" name="image" id="image" type="text" placeholder="Ảnh">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-lg-10 col-lg-offset-2">
+
+
+                                        <button type="submit" class="btn btn-primary">Tạo</button>
+
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(window).load(function () {
+
+        $.ajax({
+            url: "http://localhost:3000/type/list",
+            // the URL for the request
+            type: "POST",
+            // whether this is a POST or GET request
+            dataType: "json",
+            data: {category: $('#slcategory').find("option:first-child").val()},
+            // the type of data we expect back
+            success: function (responseJson) {
+                var trHTML = '';
+                $.each(responseJson, function (i, type) {
+                    trHTML += ' <option>' + type.title + '</option>';
+                });
+                $('#sltype').empty().append(trHTML);
+            },
+            error: function (xhr, status) {
+                // code run if request fails; raw request and status
+                console.log("Sorry, there was a problem!");
+            },
+            complete: function (xhr, status) {  	// code to run regardless of success or failure
+                console.log("The request is complete!");
+            }
+        })
+    });
+
+
+    $('#slcategory').change(function () {
+
+        $.ajax({
+            url: "http://localhost:3000/type/list",
+            // the URL for the request
+            type: "POST",
+            // whether this is a POST or GET request
+            dataType: "json",
+            data: {category: document.getElementById("slcategory").value},
+            // the type of data we expect back
+            success: function (responseJson) {
+                var trHTML = '';
+                $.each(responseJson, function (i, type) {
+                    trHTML += ' <option>' + type.title + '</option>';
+                });
+                $('#sltype').empty().append(trHTML);
+            },
+            error: function (xhr, status) {
+                // code run if request fails; raw request and status
+                console.log("Sorry, there was a problem!");
+            },
+            complete: function (xhr, status) {  	// code to run regardless of success or failure
+                console.log("The request is complete!");
+            }
+        })
+    });
+</script>

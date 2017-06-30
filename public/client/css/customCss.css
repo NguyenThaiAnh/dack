@@ -1,0 +1,10 @@
+.categoryItem
+{
+    width: 33%;
+}
+
+.customImage{
+    width: 220px;
+    height: auto;
+    max-width: 220px;
+}

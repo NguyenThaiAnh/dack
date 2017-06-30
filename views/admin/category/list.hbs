@@ -1,0 +1,73 @@
+<div class="page-title">
+    <div>
+        <h1>Bảng Danh mục</h1>
+        <ul class="breadcrumb side">
+            <li><i class="fa fa-home fa-lg"></i></li>
+            <li></li>
+            <li class="active"><a href="#">Bảng danh mục</a></li>
+        </ul>
+    </div>
+    <div>
+        <a class="btn btn-primary btn-flat" href="#"><i class="fa fa-lg fa-plus"></i></a><a
+            class="btn btn-info btn-flat" href="#"><i class="fa fa-lg fa-refresh"></i></a><a
+            class="btn btn-warning btn-flat" href="#"><i class="fa fa-lg fa-trash"></i></a></div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <table class="table table-hover table-bordered" id="sampleTable1">
+                    <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Tên</th>
+                        <th>Mô tả</th>
+                        <th>Sửa</th>
+                        <th>Xóa</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {{#each categories}}
+                        {{#each this}}
+                            <tr>
+                                <td> {{this._id}}</td>
+                                <td> {{this.title}}</td>
+                                <td>{{this.description}}</td>
+                                <td><a href="/category/edit/{{this._id}}" >Sửa</a></td>
+                                <td>
+                                    <form id="remove-form" action="/category/delete" method="post"  onsubmit="javascript: event.preventDefault(); confirmRemove();" >
+                                        <input type="hidden" name="id" value="{{this._id}}">
+                                        <input type="submit" class="btn btn-danger" value="Xóa">
+                                    </form>
+
+
+                            </tr>
+                        {{/each}}
+
+                    {{/each}}
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="/adminlayout/js/plugins/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="/adminlayout/js/plugins/dataTables.bootstrap.min.js"></script>
+
+<script type="text/javascript" src="https://cdn.datatables.net/select/1.2.2/js/dataTables.select.min.js"></script>
+<script>
+    function confirmRemove(){
+        var conf = confirm("Bạn có muốn xóa?");
+        if(conf)
+        {
+            document.getElementById('remove-form').submit();
+        }
+    }
+</script>
+<script type="text/javascript">
+    $('#sampleTable1').DataTable();
+
+</script>

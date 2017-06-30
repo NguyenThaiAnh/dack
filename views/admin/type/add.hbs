@@ -1,0 +1,133 @@
+<div class="page-title">
+    <div>
+        <h1>Bảng sản phẩm</h1>
+        <ul class="breadcrumb side">
+            <li><i class="fa fa-home fa-lg"></i></li>
+            <li>Bảng</li>
+            <li class="active"><a href="#">Bảng sản phẩm</a></li>
+        </ul>
+    </div>
+    <div>
+        <a class="btn btn-primary btn-flat" href="#"><i class="fa fa-lg fa-plus"></i></a><a
+            class="btn btn-info btn-flat" href="#"><i class="fa fa-lg fa-refresh"></i></a><a
+            class="btn btn-warning btn-flat" href="#"><i class="fa fa-lg fa-trash"></i></a></div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="well bs-component">
+                        <div id="success" class="alert alert-success" {{#unless  successMsg}}  hidden {{/unless}}>
+                            {{ successMsg }}
+                        </div>
+                        <div id="err" class="alert alert-danger" {{#unless  errMsg}}  hidden {{/unless}}>
+                            {{ errMsg }}
+                        </div>
+                        <form class="form-horizontal" action="/type/add" method="post">
+                            <fieldset>
+                                <legend>Legend</legend>
+                                <div class="form-group">
+                                    <label class="col-lg-2 control-label" for="inputEmail">Gian hàng</label>
+                                    <div class="col-lg-10">
+                                        <select name="categoryselect" class="form-control" id="categoryselect">
+                                            <optgroup label="Chọn hãng" id="categories" >
+                                            </optgroup>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-2 control-label" for="title">Tên</label>
+                                    <div class="col-lg-10">
+                                        <input class="form-control" id="title" name="title" class="form-control" value="{{title}}">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-2 control-label" for="description">Mô tả</label>
+                                    <div class="col-lg-10">
+                                        <input class="form-control" id="description" name="description" class="form-control" value="{{description}}">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-lg-10 col-lg-offset-2">
+
+                                        <button type="submit" class="btn btn-primary">Tạo</button>
+                                    </div>
+                                </div>
+
+
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script type="text/javascript">
+    $(window).load(function () {
+
+        $.ajax({
+            url: "http://localhost:3000/category",
+            // the URL for the request
+            type: "GET",
+            // whether this is a POST or GET request
+            dataType: "json",
+
+            // the type of data we expect back
+            success: function (responseJson) {
+                //  console.log(responseJson);
+                // code to run if the request succeeds; parameter = response
+                var json = JSON.stringify(responseJson);
+                console.log(responseJson);
+                var trHTML = '';
+                $.each(responseJson, function (i, category) {
+                    trHTML += ' <option>' + category.title + '</option>';
+                });
+                $('#categories').append(trHTML);
+            },
+            error: function (xhr, status) {
+                // code run if request fails; raw request and status
+                console.log("Sorry, there was a problem!");
+            },
+            complete: function (xhr, status) {  	// code to run regardless of success or failure
+                console.log("The request is complete!");
+            }
+        })
+    });
+
+
+    $('#categories').change(function () {
+        $.ajax({
+            url: "http://localhost:3000/category",
+            // the URL for the request
+            type: "GET",
+            // whether this is a POST or GET request
+            dataType: "json",
+
+            // the type of data we expect back
+            success: function (responseJson) {
+                //  console.log(responseJson);
+                // code to run if the request succeeds; parameter = response
+                var json = JSON.stringify(responseJson);
+                console.log(responseJson);
+                var trHTML = '';
+                $.each(responseJson, function (i, category) {
+                    trHTML += ' <option>' + category.title + '</option>';
+                });
+                $('#categories').append(trHTML);
+            },
+            error: function (xhr, status) {
+                // code run if request fails; raw request and status
+                console.log("Sorry, there was a problem!");
+            },
+            complete: function (xhr, status) {  	// code to run regardless of success or failure
+                console.log("The request is complete!");
+            }
+        })
+    });
+</script>

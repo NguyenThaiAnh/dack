@@ -1,0 +1,214 @@
+<script>
+    $(document).ready(function(){
+        var existName = readCookie("username");
+        console.log(existName);
+        $("#username").html(existName);
+    });
+</script>
+
+<div class="header">
+    <div class="header-top">
+        <div class="container">
+            <div class="top-left">
+                <a href="#"> Trợ giúp  <i class="glyphicon glyphicon-phone" aria-hidden="true"></i> 097 5187 293</a>
+            </div>
+            <div class="top-right">
+                <ul ng-controller="indexCtrl">
+                    <li>
+                        <a href="/checkout">Thanh toán</a>
+                    </li>
+                    {{# if login }}
+                        <li>
+                            <a href="/user/profile" >Xin chào, <span style="text-transform: lowercase; color: black" id="username"></span></a>
+                            <a href="/user/logout">&nbsp; Đăng xuất </a>
+                        </li>
+                    {{ else }}
+                        <li>
+                            <a href="/user/signup">Đăng ký &nbsp;</a>
+                            <a href="/user/signin">Đăng nhập</a>
+                        </li>
+                    {{/if}}
+                </ul>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+    <div class="heder-bottom">
+        <div class="container">
+            <div class="logo-nav">
+                <div class="logo-nav-left">
+                    <h1><a href="/">Rain Shop <span>Tung tăng mua sắm</span></a></h1>
+                </div>
+                <div class="logo-nav-left1">
+                    <nav class="navbar navbar-default">
+                        <!-- Brand and toggle get grouped for better mobile display -->
+                        <div class="navbar-header nav_2">
+                            <button type="button" class="navbar-toggle collapsed navbar-toggle1" data-toggle="collapse" data-target="#bs-megadropdown-tabs">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                        </div>
+                        <div class="collapse navbar-collapse" id="bs-megadropdown-tabs">
+                            <ul class="nav navbar-nav">
+                                <li class="active"><a href="/" class="act">Trang chủ</a></li>
+                                <!-- Mega Menu -->
+                                <li class="active"><a ui-sref="menProduct.nam" ui-sref-active="activeState" class="act" style="padding-right: initial;">Danh mục sản phẩm</a></li>
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><b class="caret"></b></a>
+                                    <ul class="dropdown-menu multi-column columns-3">
+                                        <div class="row">
+                                            <div class="col-sm-3  multi-gd-img">
+                                                <ul class="multi-column-dropdown" id="categorylist">
+
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </ul>
+                                </li>
+
+                                <li><a href="/contact">Liên hệ</a></li>
+                            </ul>
+                        </div>
+                    </nav>
+                </div>
+                <div class="logo-nav-right">
+                    <ul class="cd-header-buttons">
+                        <li><a class="cd-search-trigger" href="#cd-search"> <span></span></a></li>
+                    </ul> <!-- cd-header-buttons -->
+                    <div id="cd-search" class="cd-search">
+                        <form ng-controller="indexCtrl">
+                            <input name="Search" type="search" placeholder="Tìm kiếm..." ng-keypress="timkiem($event)" ng-model="tukhoa" ng-hide="closeSearch == true">
+                        </form>
+                    </div>
+                </div>
+                <div class="header-right2">
+                    <div class="cart box_1" ng-controller="indexCtrl">
+                        <ul class="nav navbar-nav navbar-right">
+                            <li>
+                                <a style="color: white" href="/shopping-cart/">
+                                    <i class="fa fa-shopping-cart" aria-hidden="true"></i> Giỏ hàng
+                                    <span id="total"  class="badge">{{session.cart.totalQty}}</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="clearfix"> </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function(){
+        loadCateGory();
+        function loadByCateGory(category){
+            console.log(category);
+            $.ajax({
+                url: "http://localhost:3000/product/product-by-category/" + category ,
+                // the URL for the request
+                type: "GET",
+                // whether this is a POST or GET request
+                dataType: "json",
+
+
+                // the type of data we expect back
+                success: function (responseJson) {
+                    var innerHtml = '';
+                    for(var i = 0; i < responseJson.Result.length; i++){
+                        innerHtml += '<div class="col-xs-12 col-md-6">';
+                        innerHtml += '<div class="prod-info-main prod-wrap clearfix">';
+                        innerHtml += ' <div class="row">';
+                        innerHtml += '<div class="col-md-5 col-sm-12 col-xs-12">';
+                        innerHtml += '<div class="product-image">';
+                        innerHtml += '<img src="' + responseJson.Result[i].imagePath1 + '" class="img-responsive rotprod customImage">';
+                        innerHtml += '<span class="tag2 hot">';
+                        innerHtml += 'HOT' +
+                                '</span>'+
+                                '</div>'+
+                                '</div>' +
+                                '<div class="col-md-7 col-sm-12 col-xs-12">' +
+                                '<div class="product-deatil">'+
+                                '<h5 class="name">'+
+                                '<a href="#">'+
+                                responseJson.Result[i].title +
+                                '</a>';
+                        innerHtml += '<a href="#">' +
+                                '<span>Danh mục sản phẩm</span>' +
+                                '</a>' +
+
+                                '</h5>' +
+                                '<p class="price-container">'+
+                                '<span>' + responseJson.Result[i].price + '</span>' +
+                                '</p>' +
+                                '<span class="tag1"></span>'+
+                                '</div>' +
+                                '<div class="description">'+
+                                '<p> ' + responseJson.Result[i].description + '</p>'+
+                                '</div>'+
+                                '<div class="product-info smart-form">'+
+                                '<div class="row">'+
+                                '<div class="col-md-12">'+
+                                '<a href="/product/' + responseJson.Result[i]._id + '" class="btn btn-info"><span>Chi tiết...</span></a>' +
+                                '</div>'+
+                                '</div>'+
+                                '</div>'+
+                                '</div>'+
+
+                                '</div>'+
+
+                                '</div>'+
+
+
+                                '</div>';
+                    }
+
+                    $('#contentProduct').html(innerHtml);
+                    console.log(responseJson.TotalPage);
+                    paginButton(pageIndex, responseJson.TotalPage);
+                },
+                error: function (xhr, status) {
+                    // code run if request fails; raw request and status
+                    console.log("Sorry, there was a problem!");
+                },
+                complete: function (xhr, status) {  	// code to run regardless of success or failure
+                    console.log("The request is complete!");
+                }
+            })
+        }
+    })
+
+    function loadCateGory(){
+        $.ajax({
+            url: "http://localhost:3000/category/list",
+            // the URL for the request
+            type: "GET",
+            // whether this is a POST or GET request
+            dataType: "json",
+
+
+            // the type of data we expect back
+            success: function (responseJson) {
+                console.log(responseJson);
+                var innerHtml = '';
+                for(var i = 0; i < responseJson.length; i++)
+                {
+                    innerHtml += '<li><a href="#" onclick= "loadByCateGory(' + responseJson[i]._id + ');"  class = "categoryItem">' + responseJson[i].title +'</a></li>';
+                }
+
+                $('#categorylist').html(innerHtml);
+            },
+            error: function (xhr, status) {
+                // code run if request fails; raw request and status
+                console.log("Sorry, there was a problem!");
+            },
+            complete: function (xhr, status) {  	// code to run regardless of success or failure
+                console.log("The request is complete!");
+            }
+        });
+    }
+
+
+</script>

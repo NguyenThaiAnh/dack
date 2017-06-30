@@ -1,0 +1,57 @@
+
+<div class="container">
+
+
+    {{#each products}}
+        <div class="col-xs-12 col-md-6">
+            <!-- First product box start here-->
+            {{#each this}}
+                <div class="prod-info-main prod-wrap clearfix">
+
+                    <div class="row">
+
+                        <div class="col-md-5 col-sm-12 col-xs-12">
+                            <div class="product-image">
+                                <img src="{{ this.imagePath1 }}" class="img-responsive rotprod">
+                                <span class="tag2 hot">
+							HOT
+						</span>
+                            </div>
+                        </div>
+                        <div class="col-md-7 col-sm-12 col-xs-12">
+                            <div class="product-deatil">
+                                <h5 class="name">
+                                    <a href="#">
+                                        {{ this.title }}
+                                    </a>
+                                    <a href="#">
+                                        <span>Product Category</span>
+                                    </a>
+
+                                </h5>
+                                <p class="price-container">
+                                    <span>${{ this.price }}</span>
+                                </p>
+                                <span class="tag1"></span>
+                            </div>
+                            <div class="description">
+                                <p>{{ this.description }}</p>
+                            </div>
+                            <div class="product-info smart-form">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <a href="/product/{{this._id}}" class="btn btn-info"><span>More info</span></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            {{/each}}
+            <!-- end product -->
+        </div>
+    {{/each}}
+</div>
+

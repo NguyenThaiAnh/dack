@@ -1,0 +1,309 @@
+<div class="page-title">
+    <div>
+        <h1>Bảng sản phẩm</h1>
+        <ul class="breadcrumb side">
+            <li><i class="fa fa-home fa-lg"></i></li>
+            <li></li>
+            <li class="active"><a href="#">Bảng sản phẩm</a></li>
+        </ul>
+    </div>
+    <div>
+        <a class="btn btn-primary btn-flat" href="#"><i class="fa fa-lg fa-plus"></i></a><a
+            class="btn btn-info btn-flat" href="#"><i class="fa fa-lg fa-refresh"></i></a><a
+            class="btn btn-warning btn-flat" href="#"><i class="fa fa-lg fa-trash"></i></a></div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="well bs-component">
+                        <div id="success" class="alert alert-success" {{#unless  successMsg}}  hidden {{/unless}}>
+                            {{ successMsg }}
+                        </div>
+                        <div id="err" class="alert alert-danger" {{#unless  errMsg}}  hidden {{/unless}}>
+                            {{ errMsg }}
+                        </div>
+
+                        <fieldset>
+                            <legend>Tiêu đề</legend>
+                            <div class="form-group">
+                                <label class="col-lg-2 control-label" for="title">Tên</label>
+                                <div class="col-lg-10">
+                                    <input class="form-control" id="example1" class="form-control"
+                                           placeholder="click to show datepicker">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-lg-10 col-lg-offset-2">
+
+                                    <button id="btnstatistical" name="btnstatistical"
+                                            class="btn btn-primary">Ngày
+                                    </button>
+                                    <button id="btnmontstatistical" name="btnstatistical"
+                                            class="btn btn-primary">Tháng
+                                    </button>
+                                    <button id="btnquarterstatistical" name="btnstatistical"
+                                            class="btn btn-primary">Quý
+                                    </button>
+                                    <button id="btnyearstatistical" name="btnstatistical"
+                                            class="btn btn-primary">Năm
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="card-body" id="statisticaltable">
+
+
+                            </div>
+                        </fieldset>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    // When the document is ready
+    $(document).ready(function () {
+
+        $('#example1').datepicker({
+            format: "dd/mm/yyyy"
+        });
+
+    });
+    function getyearStatistical() {
+        var d = $('#example1').val();
+        var arr = d.split('/');
+        $.ajax({
+            url: "/order/yearstatistical",
+            // the URL for the request
+            type: "POST",
+            // whether this is a POST or GET request
+            dataType: "json",
+            data: {
+                year: arr[2]
+            },
+            // the type of data we expect back
+            success: function (responseJson) {
+                var html = '<table class="table table-hover table-bordered" id="sampleTable1">';
+
+                html += '<thead>';
+                html += '<tr>';
+                html += ' <th>Id</th>';
+                html += '  <th>Tên</th>';
+                html += ' <th>Số lượng</th>';
+                html += ' <th>Id người mua</th>';
+
+                html += '</tr>';
+
+                html += '</thead>';
+                html += '<tbody>';
+                for (var i = 0; i < responseJson.length; i++) {
+                    html += '<tr>';
+
+
+                    html += '<td>' + responseJson[i]._id + '</td>';
+                    html += '<td>' + responseJson[i].title + '</td>';
+                    html += '<td>' + responseJson[i].count + '</td>';
+                    html += '<td>' + responseJson[i].idcustomer + '</td>';
+
+                    html += '</tr>';
+                }
+
+                html += ' </tbody>';
+                html += '</table>';
+                $('#statisticaltable').html(html);
+
+
+            },
+            error: function (xhr, status) {
+                // code run if request fails; raw request and status
+                console.log("Sorry, there was a problem!");
+            },
+            complete: function (xhr, status) {  	// code to run regardless of success or failure
+                console.log("The request is complete!");
+            }
+        })
+    }
+    function getquarterStatistical() {
+        var d = $('#example1').val();
+        var arr = d.split('/');
+        $.ajax({
+            url: "/order/quarterstatistical",
+            // the URL for the request
+            type: "POST",
+            // whether this is a POST or GET request
+            dataType: "json",
+            data: {
+                month: arr[1],
+                year: arr[2]
+            },
+            // the type of data we expect back
+            success: function (responseJson) {
+                var html = '<table class="table table-hover table-bordered" id="sampleTable1">';
+
+                html += '<thead>';
+                html += '<tr>';
+                html += ' <th>Id</th>';
+                html += '  <th>Tên</th>';
+                html += ' <th>Số lượng</th>';
+                html += ' <th>Id người mua</th>';
+
+                html += '</tr>';
+
+                html += '</thead>';
+                html += '<tbody>';
+                for (var i = 0; i < responseJson.length; i++) {
+                    html += '<tr>';
+
+
+                    html += '<td>' + responseJson[i]._id + '</td>';
+                    html += '<td>' + responseJson[i].title + '</td>';
+                    html += '<td>' + responseJson[i].count + '</td>';
+                    html += '<td>' + responseJson[i].idcustomer + '</td>';
+
+                    html += '</tr>';
+                }
+
+                html += ' </tbody>';
+                html += '</table>';
+                $('#statisticaltable').html(html);
+
+
+            },
+            error: function (xhr, status) {
+                // code run if request fails; raw request and status
+                console.log("Sorry, there was a problem!");
+            },
+            complete: function (xhr, status) {  	// code to run regardless of success or failure
+                console.log("The request is complete!");
+            }
+        })
+    }
+    function getdayStatistical() {
+        var d = $('#example1').val();
+        var arr = d.split('/');
+        $.ajax({
+            url: "/order/daystatistical",
+            // the URL for the request
+            type: "POST",
+            // whether this is a POST or GET request
+            dataType: "json",
+            data: {
+                date: arr[0],
+                month: arr[1],
+                year: arr[2]
+            },
+            // the type of data we expect back
+            success: function (responseJson) {
+                var html = '<table class="table table-hover table-bordered" id="sampleTable1">';
+
+                html += '<thead>';
+                html += '<tr>';
+                html += ' <th>Id</th>';
+                html += '  <th>Tên</th>';
+                html += ' <th>Số lượng</th>';
+                html += ' <th>Id người mua</th>';
+
+                html += '</tr>';
+
+                html += '</thead>';
+                html += '<tbody>';
+                for (var i = 0; i < responseJson.length; i++) {
+                    html += '<tr>';
+
+
+                    html += '<td>' + responseJson[i]._id + '</td>';
+                    html += '<td>' + responseJson[i].title + '</td>';
+                    html += '<td>' + responseJson[i].count + '</td>';
+                    html += '<td>' + responseJson[i].idcustomer + '</td>';
+
+                    html += '</tr>';
+                }
+
+                html += ' </tbody>';
+                html += '</table>';
+                $('#statisticaltable').html(html);
+
+
+            },
+            error: function (xhr, status) {
+                // code run if request fails; raw request and status
+                console.log("Sorry, there was a problem!");
+            },
+            complete: function (xhr, status) {  	// code to run regardless of success or failure
+                console.log("The request is complete!");
+            }
+        })
+    }
+    function getmonthStatistical() {
+        var d = $('#example1').val();
+        var arr = d.split('/');
+        $.ajax({
+            url: "/order/monthstatistical",
+            // the URL for the request
+            type: "POST",
+            // whether this is a POST or GET request
+            dataType: "json",
+            data: {
+                month: arr[1],
+                year: arr[2]
+            },
+            // the type of data we expect back
+            success: function (responseJson) {
+                var html = '<table class="table table-hover table-bordered" id="sampleTable1">';
+
+                html += '<thead>';
+                html += '<tr>';
+                html += ' <th>Id</th>';
+                html += '  <th>Tên</th>';
+                html += ' <th>Số lượng</th>';
+                html += ' <th>Id người mua</th>';
+
+                html += '</tr>';
+
+                html += '</thead>';
+                html += '<tbody>';
+                for (var i = 0; i < responseJson.length; i++) {
+                    html += '<tr>';
+
+
+                    html += '<td>' + responseJson[i]._id + '</td>';
+                    html += '<td>' + responseJson[i].title + '</td>';
+                    html += '<td>' + responseJson[i].count + '</td>';
+                    html += '<td>' + responseJson[i].idcustomer + '</td>';
+
+                    html += '</tr>';
+                }
+
+                html += ' </tbody>';
+                html += '</table>';
+                $('#statisticaltable').html(html);
+
+
+            },
+            error: function (xhr, status) {
+                // code run if request fails; raw request and status
+                console.log("Sorry, there was a problem!");
+            },
+            complete: function (xhr, status) {  	// code to run regardless of success or failure
+                console.log("The request is complete!");
+            }
+        })
+    }
+    (function ($) {
+        $(function () {
+            $('#btnstatistical').click(getdayStatistical);
+            $('#btnmontstatistical').click(getmonthStatistical);
+            $('#btnquarterstatistical').click(getquarterStatistical);
+            $('#btnyearstatistical').click(getyearStatistical);
+        });
+    })(jQuery);
+</script>
+
+</body>
+</html>
