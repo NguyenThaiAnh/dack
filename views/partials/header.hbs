@@ -107,7 +107,7 @@
         function loadByCateGory(category){
             console.log(category);
             $.ajax({
-                url: "http://localhost:3000/product/product-by-category/" + category ,
+                url: "http://shoppinga.herokuapp.com/product/product-by-category/" + category ,
                 // the URL for the request
                 type: "GET",
                 // whether this is a POST or GET request
@@ -182,7 +182,7 @@
 
     function loadCateGory(){
         $.ajax({
-            url: "http://localhost:3000/category/list",
+            url: "/category/list",
             // the URL for the request
             type: "GET",
             // whether this is a POST or GET request

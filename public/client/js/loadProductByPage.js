@@ -5,7 +5,7 @@ function loadByPage(pageIndex){
     if(pageIndex < 0)
         pageIndex == 0;
     $.ajax({
-        url: "http://localhost:3000/product/product-by-page/" + pageIndex ,
+        url: "http://shoppinga.herokuapp.com/product/product-by-page/" + pageIndex ,
         // the URL for the request
         type: "GET",
         // whether this is a POST or GET request
@@ -81,7 +81,7 @@ function loadByPage(pageIndex){
 function loadByCateGory(category){
     console.log(category);
     $.ajax({
-        url: "http://localhost:3000/product/product-by-category/" + category ,
+        url: "http://shoppinga.herokuapp.com/product/product-by-category/" + category ,
         // the URL for the request
         type: "GET",
         // whether this is a POST or GET request

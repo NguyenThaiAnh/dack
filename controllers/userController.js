@@ -25,7 +25,7 @@ exports.sendmail =function (req, res, next)
                 from: '"Do an cuoi ky" <ptudwth14shopping@gmail.com>', // sender address
                 to: user.email, // list of receivers
                 subject: 'Xác thực email', // Subject line
-                text: 'http://localhost:3000/user/verify/' + user.authToken,
+                text: 'http://shoppinga.herokuapp.com/user/verify/' + user.authToken,
             };
             transporter.sendMail(mailOptions, function(error, info)
             {
@@ -79,7 +79,7 @@ exports.sendmailresetPass =function (req, res, next)
                 from: '"Do an cuoi ky" <ptudwth14shopping@gmail.com>', // sender address
                 to: user.email, // list of receivers
                 subject: 'Xác thực email', // Subject line
-                text: 'http://localhost:3000/user/reset/' + user.authToken,
+                text: 'http://shoppinga.herokuapp.com/user/reset/' + user.authToken,
             };
             transporter.sendMail(mailOptions, function(error, info)
             {

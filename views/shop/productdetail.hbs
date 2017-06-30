@@ -131,7 +131,7 @@
     $(window).load(function () {
 
         $.ajax({
-            url: "http://localhost:3000/comment/{{product._id}}",
+            url: "http://shoppinga.herokuapp.com/comment/{{product._id}}",
             // the URL for the request
             type: "GET",
             // whether this is a POST or GET request
@@ -175,7 +175,7 @@
 
     function postComment() {
         $.ajax({
-            url: "http://localhost:3000/comment",
+            url: "http://shoppinga.herokuapp.com/comment",
             // the URL for the request
             type: "POST",
             // whether this is a POST or GET request
@@ -215,7 +215,7 @@
 
     function getAndRenderData() {
         $.ajax({
-            url: "http://localhost:3000/add-to-cart/{{product._id}}",
+            url: "http://shoppinga.herokuapp.com/add-to-cart/{{product._id}}",
             // the URL for the request
             type: "GET",
             // whether this is a POST or GET request
